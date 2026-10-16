@@ -311,7 +311,10 @@ if setup_spec.type == SetupType.RAY:
         )
     )
 
-    setup_spec.extras["cpp"] = ["ray-cpp==" + setup_spec.version]
+    # Keep the C++ extra aligned with the Ray 2.54.0 base wheel. The MUSA
+    # Python wheel carries a local ``+musa`` version, while the bundled C++
+    # package remains the upstream ``ray-cpp==2.54.0`` dependency.
+    setup_spec.extras["cpp"] = ["ray-cpp==2.54.0"]
 
     setup_spec.extras["rllib"] = setup_spec.extras["tune"] + [
         "dm_tree",
@@ -393,6 +396,7 @@ if setup_spec.type == SetupType.RAY:
 # new releases candidates.
 if setup_spec.type == SetupType.RAY:
     setup_spec.install_requires = [
+        "mthreads-ml-py>=2.4.2",
         "click>=7.0",
         "filelock",
         "jsonschema",
